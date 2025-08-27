@@ -1,4 +1,4 @@
-# vim_as_lightweight_ide_setup
+# vim_ide_setup
 
 ## 1) Theory
 
@@ -31,13 +31,15 @@ pipx install pyright
 
 # google-java-format
 GJF_VER=1.22.0
-curl -L -o ~/.local/bin/google-java-format.jar   https://repo1.maven.org/maven2/com/google/googlejavaformat/google-java-format/${GJF_VER}/google-java-format-${GJF_VER}-all-deps.jar
+curl -L -o ~/.local/bin/google-java-format.jar \
+https://repo1.maven.org/maven2/com/google/googlejavaformat/google-java-format/${GJF_VER}/google-java-format-${GJF_VER}-all-deps.jar
 ```
 
 ### 2.2 vim-plug 설치
 
 ``` bash
-curl -fLo ~/.vim/autoload/plug.vim --create-dirs   https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
+https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 ```
 
 ### 2.3 `.vimrc` 최소 설정
@@ -81,7 +83,7 @@ let g:ale_linters = {
 \ 'java': ['javac'],
 \}
 let g:ale_fixers = {
-\ 'python': ['black', 'isort'],
+\ 'python': ['isort', 'black'],
 \ 'java': ['google_java_format'],
 \}
 let g:ale_java_google_java_format_executable =
@@ -90,16 +92,16 @@ let g:ale_java_google_java_format_executable =
 " 파일별 실행 단축키
 " 파이썬: 저장 후 현재 파일 실행
 nnoremap <leader>rp :w<CR>:!python3 %<CR>
-" 스프링 부트: 프로젝트 루트에서 gradle 실행
-nnoremap <leader>rs :w<CR>:!./gradlew bootRun<CR>
+" 스프링 부트: git 루트에서 gradle 실행
+nnoremap <leader>rs :w<CR>:execute '!cd ' . system('git rev-parse --show-toplevel')->trim() . ' && ./gradlew bootRun'<CR>
 
-" 상태 표시(진단)
-autocmd CursorHold * silent call CocActionAsync('diagnosticList')
+" 상태 표시(진단) - 필요 없으면 주석 처리
+" autocmd CursorHold * silent call CocActionAsync('diagnosticList')
 ```
 
 ### 2.4 coc.nvim 확장 설치
 
-vim 열고 다음 실행:
+#### vim 열고 다음 실행:
 
 ``` vim
 :CocInstall coc-pyright coc-json coc-sh coc-yaml coc-java
@@ -132,7 +134,7 @@ pip install black isort ruff  # 가상환경에도 설치 시 자동 인식 좋�
 -   저장 시 포맷: black+isort 자동 실행
 -   실행: `<Space>rp` 또는 `:!python3 %`
 
-테스트:
+#### 테스트:
 
 ``` bash
 echo 'print("hello")' > app.py
@@ -148,7 +150,7 @@ python3 app.py
 -   저장 시 포맷: google‑java‑format 적용
 -   실행: 프로젝트 루트에서 `<Space>rs` 또는 `./gradlew bootRun`
 
-테스트:
+#### 테스트:
 
 ``` bash
 ./gradlew clean build

@@ -143,15 +143,45 @@ eval "$(pyenv init -)"
 
 # 1. 가상환경 생성 + 활성화
 
-```mkvenv```
+* ```mkvenv```
 
 # 2. 패키지 설치
 
-```pip install -r requirements.txt```
+* ```pip install -r requirements.txt```
 
 # 3. direnv 사용 (자동 활성화)
 
-```use_direnv_here ```
+#### 가상환경이 제대로 생성되어 있는지 확인
+
+```
+ls .venv/bin/activate
+```
+
+#### 없으면 다시 생성:
+
+```
+python3 -m venv .venv
+```
+
+####  `.envrc` 수정
+
+```
+layout python3 .venv
+```
+
+####  또는
+
+```
+layout python .venv
+```
+
+####  (Ubuntu에서 python3만 있을 때는 `layout python3`가 더 안전)
+
+####  적용
+
+```
+direnv allow
+```
 
 ------------------------------------------------------------------------
 
