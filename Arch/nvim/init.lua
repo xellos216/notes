@@ -51,21 +51,26 @@ require("lazy").setup({
 -- =========================
 require("mason").setup()
 require("mason-lspconfig").setup({
-  ensure_installed = { "pyright" },
+  ensure_installed = { "pyright", "bashls" },
 })
 
 local lspconfig = require("lspconfig")
 local capabilities = require("cmp_nvim_lsp").default_capabilities()
+
 lspconfig.pyright.setup({
   capabilities = capabilities,
   settings = { python = { analysis = { typeCheckingMode = "basic" } } },
+})
+
+lspconfig.bashls.setup({
+  capabilities = capabilities,
 })
 
 -- =========================
 -- Treesitter
 -- =========================
 require("nvim-treesitter.configs").setup({
-  ensure_installed = { "python", "lua" },
+  ensure_installed = { "python", "lua", "bash" },
   highlight = { enable = true },
   indent = { enable = true },
 })
@@ -75,8 +80,8 @@ require("nvim-treesitter.configs").setup({
 -- =========================
 require("conform").setup({
   formatters_by_ft = {
-    -- 유지: isort -> black
     python = { "isort", "black" },
+    sh = { "shfmt" },
   },
   format_on_save = { timeout_ms = 1000, lsp_fallback = true },
 })
@@ -86,6 +91,7 @@ require("conform").setup({
 -- =========================
 local lint = require("lint")
 lint.linters_by_ft = { python = { "ruff" } }
+lint.linters_by_ft.sh = { "shellcheck" }
 vim.api.nvim_create_autocmd({ "BufWritePost", "InsertLeave" }, {
   callback = function() require("lint").try_lint() end,
 })
@@ -170,4 +176,7 @@ vim.keymap.set("t", "<C-Right>", [[<C-\><C-n><C-w>l]])
 vim.opt.number = true
 vim.opt.splitbelow = true
 vim.opt.splitright = true
+vim.opt.tabstop = 4
+vim.opt.shiftwidth = 4
+vim.opt.expandtab = true
 
