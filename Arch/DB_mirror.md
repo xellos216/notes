@@ -1,4 +1,3 @@
-````markdown
 # Arch Linux pacman 미러 동기화 오류 (404)
 
 ## 개념 설명
@@ -31,7 +30,7 @@ Arch Linux의 패키지 관리자는 `pacman`이고, 패키지 저장소는 **�
 1. **DB 강제 새로고침**
    ```bash
    sudo pacman -Syy
-````
+```
 
 * 로컬 DB를 무조건 다시 내려받아 최신 상태로 맞춤.
 
@@ -68,5 +67,4 @@ Arch Linux의 패키지 관리자는 `pacman`이고, 패키지 저장소는 **�
 * 해결책은 DB 강제 갱신 → 그래도 안 되면 더 잘 동기화된 미러로 교체.
 * Arch Linux 특성상 이런 현상은 가끔 발생하며, pacman 자체 문제는 아님.
 
-```
 
